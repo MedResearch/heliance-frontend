@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" id="html-tag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">نتایج جستجو - HELIANCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Vazirmatn:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-gold: #D4AF37;
+            --brand-blue: #2C7DA0;
+            --charcoal-black: #1F1F1F;
+            --creamy-white: #F9F6F1;
+            --light-blue: #D1EAF0;
+        }
+        :lang(fa) { font-family: 'Vazirmatn', 'Inter', sans-serif; }
+        :lang(en) { font-family: 'Inter', 'Vazirmatn', sans-serif; }
+
+        body { background-color: white; color: var(--charcoal-black); cursor: none; }
+        h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Playfair Display', serif; }
+        
+        .cursor-dot, .cursor-outline { pointer-events: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; opacity: 0; transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out; }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--brand-gold); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--brand-gold); }
+        body:hover .cursor-dot, body:hover .cursor-outline { opacity: 1; }
+        .cursor-link-hover .cursor-outline { transform: translate(-50%, -50%) scale(1.5); background-color: rgba(212, 175, 55, 0.2); }
+        .cursor-link-hover .cursor-dot { opacity: 0; }
+
+        .menu-overlay { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: var(--creamy-white); z-index: 100; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 10vw; }
+        html[dir="ltr"] .menu-overlay { right: auto; left: 0; transform: translateX(-100%); }
+        .menu-overlay.open { transform: translateX(0); }
+        .menu-overlay a, .menu-overlay button { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--charcoal-black); margin: 1.2rem 0; text-decoration: none; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease; }
+        .menu-overlay a:hover, .menu-overlay button:hover { color: var(--brand-gold); }
+        .menu-overlay.open a, .menu-overlay.open button { opacity: 1; transform: translateY(0); }
+        #logout-menu-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            text-align: right;
+            color: #ef4444;
+        }
+        #logout-menu-btn:hover {
+            color: #dc2626;
+        }
+
+        .hamburger-button { z-index: 110; cursor: pointer; width: 24px; height: 20px; position: relative; background: none; border: none; }
+        .hamburger-button span { display: block; position: absolute; height: 2px; width: 100%; background: var(--charcoal-black); border-radius: 2px; opacity: 1; right: 0; transform: rotate(0deg); transition: .25s ease-in-out; }
+        html[dir="ltr"] .hamburger-button span { right: auto; left: 0; }
+        .hamburger-button span:nth-child(1) { top: 0px; }
+        .hamburger-button span:nth-child(2) { top: 8px; }
+        .hamburger-button span:nth-child(3) { top: 16px; }
+        .hamburger-button.open span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+        .hamburger-button.open span:nth-child(2) { opacity: 0; right: -60px; }
+        html[dir="ltr"] .hamburger-button.open span:nth-child(2) { right: auto; left: -60px; }
+        .hamburger-button.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
+
+        .close-button { position: absolute; top: 40px; right: 40px; font-size: 2.5rem; color: var(--charcoal-black); cursor: pointer; z-index: 120; line-height: 1; transition: transform 0.3s ease, color 0.3s ease; background: none; border: none; }
+        html[dir="ltr"] .close-button { right: auto; left: 40px; }
+        .close-button:hover { transform: rotate(90deg); color: var(--brand-gold); }
+        
+        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; z-index: 60; background-color: rgba(249, 246, 241, 0.95); backdrop-filter: blur(10px); padding: 1.5rem; transform: translateY(-120%); transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1); display: flex; justify-content: center; align-items: center; }
+        .search-overlay.open { transform: translateY(0); }
+        
+        .product-card { transition: all 0.3s ease; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Menu, Search, Header -->
+    <!-- ... (کدهای هدر، منو و جستجو از صفحات دیگر کپی شود) ... -->
+
+    <main class="py-12 md:py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold font-display" data-lang-key="resultsTitle">نتایج جستجو برای: "<span id="search-term" class="text-[var(--brand-blue)]"></span>"</h1>
+            </div>
+
+            <div id="results-container" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Search results will be injected here by JS -->
+            </div>
+            
+            <div id="no-results-message" class="hidden text-center py-16">
+                <p class="text-xl text-gray-600" data-lang-key="noResults">متاسفانه محصولی با این مشخصات یافت نشد.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <!-- ... (کد فوتر از صفحات دیگر کپی شود) ... -->
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ... (کدهای مربوط به منو، جستجو، زبان و لاگین از صفحات دیگر کپی شود) ...
+
+        const renderResults = (products) => {
+            const container = document.getElementById('results-container');
+            const noResultsMessage = document.getElementById('no-results-message');
+            container.innerHTML = '';
+
+            if (products.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+                return;
+            }
+            noResultsMessage.classList.add('hidden');
+
+            products.forEach(product => {
+                const productCard = `
+                    <a href="${product.pageUrl}" class="product-card block bg-white rounded-lg overflow-hidden border border-gray-200/50">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-semibold mb-2">${product.name}</h3>
+                            <p class="text-gray-600 mb-4 text-sm">${product.description}</p>
+                        </div>
+                    </a>
+                `;
+                container.innerHTML += productCard;
+            });
+        };
+
+        const fetchSearchResults = async () => {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q');
+            const searchTermEl = document.getElementById('search-term');
+
+            if (searchTermEl) searchTermEl.textContent = query;
+
+            if (!query) {
+                renderResults([]);
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/products/search?q=${query}`);
+                const products = await response.json();
+                renderResults(products);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+                document.getElementById('results-container').innerHTML = '<p class="text-red-500 text-center">خطا در دریافت نتایج.</p>';
+            }
+        };
+
+        fetchSearchResults();
+    });
+    </script>
+</body>
+</html>
