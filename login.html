@@ -518,8 +518,14 @@
         const menuToggle = document.getElementById('menu-toggle');
         const menuOverlay = document.getElementById('menu-overlay');
         const menuClose = document.getElementById('menu-close');
-        menuToggle.addEventListener('click', () => menuOverlay.classList.toggle('open'));
-        menuClose.addEventListener('click', () => menuOverlay.classList.remove('open'));
+        
+        const toggleMenu = () => {
+            menuToggle.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
         
         const searchToggle = document.getElementById('search-toggle');
         const searchOverlay = document.getElementById('search-overlay');
@@ -571,7 +577,7 @@
                 phoneInput.disabled = !isPhone;
             });
         });
-        
+
         document.querySelectorAll('.password-toggle').forEach(toggle => {
             toggle.addEventListener('click', () => {
                 const passwordInput = toggle.previousElementSibling;
@@ -600,7 +606,6 @@
                 password: document.getElementById('signup-password-input').value,
             };
 
-            // Use placeholders for disabled fields
             if(isPhone) {
                 if(!userData.phoneNumber) {
                      messageBox.textContent = 'لطفا شماره تلفن را وارد کنید.';

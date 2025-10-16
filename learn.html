@@ -381,6 +381,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const API_URL = 'https://heliance-backend.onrender.com';
         const translations = {
             fa: {
                 pageTitle: "محتوای آموزشی - HELIANCE",
@@ -512,7 +513,7 @@
             });
             document.title = translations[lang].pageTitle;
         }
-        
+
         function updateLoginStatus() {
             const isLoggedIn = localStorage.getItem('heliance_user_loggedin') === 'true';
             const nav = document.getElementById('main-nav');
@@ -540,6 +541,7 @@
                     `;
                     logoutButton.addEventListener('click', () => {
                         localStorage.removeItem('heliance_user_loggedin');
+                        localStorage.removeItem('heliance_token');
                         window.location.href = 'index.html';
                     });
                     nav.appendChild(logoutButton);
@@ -573,14 +575,31 @@
         const menuToggle = document.getElementById('menu-toggle');
         const menuOverlay = document.getElementById('menu-overlay');
         const menuClose = document.getElementById('menu-close');
-        menuToggle.addEventListener('click', () => menuOverlay.classList.toggle('open'));
-        menuClose.addEventListener('click', () => menuOverlay.classList.remove('open'));
+
+        const toggleMenu = () => {
+            menuToggle.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
         
         const searchToggle = document.getElementById('search-toggle');
         const searchOverlay = document.getElementById('search-overlay');
         const searchClose = document.getElementById('search-close');
+        const searchInput = document.getElementById('search-input');
+
         searchToggle.addEventListener('click', () => searchOverlay.classList.add('open'));
         searchClose.addEventListener('click', () => searchOverlay.classList.remove('open'));
+
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+                }
+            }
+        });
 
         // --- Page Specific Logic: Tabs and Video Galleries ---
         document.querySelectorAll('.product-section').forEach(section => {
@@ -591,8 +610,8 @@
 
             infoTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    infoTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
+                    infoTabs.forEach(t => t.classList.remove('active', 'text-gray-900'));
+                    tab.classList.add('active', 'text-gray-900');
                     const targetId = tab.dataset.target;
                     tabContents.forEach(content => {
                         content.classList.toggle('hidden', content.id !== targetId);
@@ -608,7 +627,7 @@
                 });
             });
         });
-        
+
         // Initial setup on page load
         updateLoginStatus();
         const savedLang = localStorage.getItem('heliance_lang') || 'fa';

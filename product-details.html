@@ -66,7 +66,7 @@
 
         .thumbnail.active { border-color: var(--brand-gold); }
         .info-tab.active { color: var(--brand-blue); border-bottom-color: var(--brand-blue); font-weight: 600; }
-
+        
         #message-box {
             position: fixed;
             bottom: 20px;
@@ -171,7 +171,7 @@
                     <h1 id="product-name" class="text-4xl md:text-5xl font-bold mb-3" data-lang-key="prodTitle">ژل رویال خالص</h1>
                     <p class="text-gray-600 text-lg mb-6" data-lang-key="prodSubtitle">قدرت متمرکز طبیعت برای حداکثر انرژی و شادابی.</p>
                     <div class="text-4xl font-bold text-[var(--brand-blue)] mb-8">
-                        <span id="product-price" data-price-fa="1250000" data-price-en="45.00" data-lang-key="prodPrice">۱,۲۵۰,۰۰۰ تومان</span>
+                        <span id="product-price" data-price-fa="2300000" data-price-en="85.00" data-lang-key="prodPrice">۲,۳۰۰,۰۰۰ تومان</span>
                     </div>
 
                     <div class="flex items-center gap-4 mb-8">
@@ -290,6 +290,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const API_URL = 'https://heliance-backend.onrender.com'; //  آدرس سرور آنلاین شما
         const translations = {
             fa: {
                 pageTitle: "ژل رویال خالص - HELIANCE",
@@ -305,7 +306,7 @@
                 searchPlaceholder: "جستجو...",
                 prodTitle: "ژل رویال خالص",
                 prodSubtitle: "قدرت متمرکز طبیعت برای حداکثر انرژی و شادابی.",
-                prodPrice: "2/300/000 تومان",
+                prodPrice: "۲,۳۰۰,۰۰۰ تومان",
                 addToCart: "افزودن به سبد خرید",
                 needHelp: "نیاز به راهنمایی دارید؟",
                 bookConsultation: "رزرو مشاوره با کارشناس",
@@ -358,7 +359,7 @@
                 searchPlaceholder: "Search...",
                 prodTitle: "Pure Royal Jelly",
                 prodSubtitle: "The concentrated power of nature for maximum energy and vitality.",
-                prodPrice: "$45.00",
+                prodPrice: "$85.00",
                 addToCart: "Add to Cart",
                 needHelp: "Need guidance?",
                 bookConsultation: "Book a consultation with an expert",
@@ -488,14 +489,31 @@
         const menuToggle = document.getElementById('menu-toggle');
         const menuOverlay = document.getElementById('menu-overlay');
         const menuClose = document.getElementById('menu-close');
-        menuToggle.addEventListener('click', () => menuOverlay.classList.toggle('open'));
-        menuClose.addEventListener('click', () => menuOverlay.classList.remove('open'));
+        
+        const toggleMenu = () => {
+            menuToggle.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
         
         const searchToggle = document.getElementById('search-toggle');
         const searchOverlay = document.getElementById('search-overlay');
         const searchClose = document.getElementById('search-close');
+        const searchInput = document.getElementById('search-input');
+
         searchToggle.addEventListener('click', () => searchOverlay.classList.add('open'));
         searchClose.addEventListener('click', () => searchOverlay.classList.remove('open'));
+        
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+                }
+            }
+        });
 
         const thumbnails = document.querySelectorAll('.thumbnail');
         const mainImage = document.getElementById('main-product-image');
@@ -555,7 +573,7 @@
             };
 
             try {
-                 const response = await fetch('http://localhost:5000/api/cart', {
+                 const response = await fetch(`${API_URL}/api/cart`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

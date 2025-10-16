@@ -325,6 +325,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        const API_URL = 'https://heliance-backend.onrender.com';
         const translations = {
             fa: {
                 pageTitle: "سبد خرید - HELIANCE",
@@ -508,7 +509,7 @@
         const menuToggle = document.getElementById('menu-toggle');
         const menuOverlay = document.getElementById('menu-overlay');
         const menuClose = document.getElementById('menu-close');
-
+        
         const toggleMenu = () => {
             menuToggle.classList.toggle('open');
             menuOverlay.classList.toggle('open');
@@ -553,7 +554,7 @@
             if (!token) return;
 
             try {
-                const response = await fetch('http://localhost:5000/api/cart', {
+                const response = await fetch(`${API_URL}/api/cart`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!response.ok) throw new Error('Failed to fetch cart');
@@ -613,7 +614,7 @@
         async function updateCartItemQuantity(itemId, quantity) {
              const token = localStorage.getItem('heliance_token');
              try {
-                const res = await fetch(`http://localhost:5000/api/cart/${itemId}`, {
+                const res = await fetch(`${API_URL}/api/cart/${itemId}`, {
                     method: 'PUT',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -628,7 +629,7 @@
         async function removeFromCart(itemId) {
              const token = localStorage.getItem('heliance_token');
              try {
-                const res = await fetch(`http://localhost:5000/api/cart/${itemId}`, {
+                const res = await fetch(`${API_URL}/api/cart/${itemId}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
