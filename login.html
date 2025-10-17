@@ -355,6 +355,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const API_URL = 'https://heliance-backend.onrender.com';
         const translations = {
             fa: {
                 pageTitle: "ثبت نام / ورود - HELIANCE",
@@ -530,8 +531,19 @@
         const searchToggle = document.getElementById('search-toggle');
         const searchOverlay = document.getElementById('search-overlay');
         const searchClose = document.getElementById('search-close');
+        const searchInput = document.getElementById('search-input');
+
         searchToggle.addEventListener('click', () => searchOverlay.classList.add('open'));
         searchClose.addEventListener('click', () => searchOverlay.classList.remove('open'));
+        
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+                }
+            }
+        });
 
         const loginTabBtn = document.getElementById('login-tab-btn');
         const signupTabBtn = document.getElementById('signup-tab-btn');
@@ -577,7 +589,7 @@
                 phoneInput.disabled = !isPhone;
             });
         });
-
+        
         document.querySelectorAll('.password-toggle').forEach(toggle => {
             toggle.addEventListener('click', () => {
                 const passwordInput = toggle.previousElementSibling;
@@ -627,7 +639,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost:5000/api/users/register', {
+                const response = await fetch(`${API_URL}/api/users/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(userData),
@@ -668,7 +680,7 @@
             };
 
             try {
-                const response = await fetch('http://localhost:5000/api/users/login', {
+                const response = await fetch(`${API_URL}/api/users/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData),
